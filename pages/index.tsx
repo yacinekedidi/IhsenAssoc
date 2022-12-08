@@ -5,6 +5,7 @@ export default function Home() {
     <div>
       <Head>
         <title>Ihsen Association</title>
+        <meta property="title" content="Ihsen Association" />
         <meta
           name="description"
           content="help make a difference in an orphan's life"
