@@ -136,7 +136,7 @@ model Family {
 
   kids Orphan[]
 
-  @@unique([parent.cin_number parent.deceased_parent_cin])  
+  @@unique([parent.cin_number, parent.deceased_parent_cin])  
 
   @@map("families")
 }
