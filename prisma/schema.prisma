@@ -131,6 +131,10 @@ model Orphan {
 
   health_status String
 
+  family   Family   @relation(fields: [familyId], references: [id])
+  
+  familyId String @db.ObjectId
+
   education Eduction[]
 
   @@map("orphans")
@@ -143,7 +147,7 @@ model Family {
 
   parent Parent
 
-  kids Orphan[]
+  Orphans Orphan[]
 
   @@unique([parent.cin_number, parent.deceased_parent_cin])  
 
