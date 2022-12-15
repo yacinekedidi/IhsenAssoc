@@ -17,7 +17,7 @@ type Scores {
 
 }
 
-type Eduction {
+type Education {
 
   level String
 
@@ -32,8 +32,6 @@ type Eduction {
   institute String
 
   speciality String
-
-  updatedAt DateTime  @updatedAt @map(name: "updated_at")
 
 }
 
@@ -135,7 +133,9 @@ model Orphan {
   
   familyId String @db.ObjectId
 
-  education Eduction[]
+  education Education[]
+
+  updatedAt DateTime  @updatedAt @map(name: "updated_at")  
 
   @@map("orphans")
 
