@@ -7,38 +7,110 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+type Eduction {
+
+  level String
+
+  status Edu_STAT @default(ONGOING)
+
+  score String
+
+  info Eduction_info
+
+  year String
+
+  institute String
+
+  speciality String
+
+  updatedAt DateTime  @updatedAt @map(name: "updated_at")
+
+}
+
+
+
+type Address {
+
+  street String
+
+  village String
+
+  town String
+
+  city String
+
+  postal_code Int
+
+  number Int
+
+}
+
+
+type Person {
+
+  firstname String
+
+  lastname String
+
+  birthdate DateTime
+
+  gender string
+
+  email string
+
+  phone String
+
+  username String
+
+  role Role @default(USER)
+
+}
+
+
+type Parent {
+
+  info Person
+
+  cin_number Int
+
+  address Address
+
+  health_status String
+
+  health_ensurance string
+
+  job string
+
+  income string
+
+  home_status String
+
+  deceased_parent_name String
+
+  deceased_parent_cin Int
+
+  cause_of_death String
+
+  sponsor_name String
+
+  family_status String
+
+}
+
 
 model User {
 
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  email String @unique
-
-  username String @unique
-  
-  name String?
-
-  role Role @default(USER)
-
-  profile Profile?
+  info Person
 
   createdAt DateTime  @default(now()) @map(name: "created_at")
   
   updatedAt DateTime  @updatedAt @map(name: "updated_at")
 
+  @@unique([info.email, info.username])
+
   @@map("users")
-}
-
-
-model Profile {
-
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
-  bio String
-
-  user User @relation(fields: [userId], references: [id])
-
-  userId String @unique @db.ObjectId
 }
 
 
@@ -46,18 +118,25 @@ model Orphan {
 
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  firstname String
+  info Person
 
-  lastname String
+  health_status String
 
-  birthdate DateTime  
+  education Eduction[]
 
   @@map("orphans")
+
 }
 
 model Family {
 
   id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  parent Parent
+
+  kids Orphan[]
+
+  @@unique([parent.cin_number parent.deceased_parent_cin])  
 
   @@map("families")
 }
@@ -66,12 +145,28 @@ model Subsidy {
   
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
+  title String
+
+  unit_price Int
+
+  quantity String
+
+  status String
 
   @@map("subsidies")
 }
 
+enum Edu_STAT {
+  ONGOING
+  FAILED
+  PASSED
+}
+
 
 enum Role {
+  ORPHAN
+  PARENT
   USER
+  MODERATOR
   ADMIN
 }
