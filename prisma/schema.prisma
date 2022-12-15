@@ -7,17 +7,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+type Scores {
+
+  first_trimester Int
+
+  second_trimester Int
+
+  third_trimester Int
+
+}
+
 type Eduction {
 
   level String
 
   status Edu_STAT @default(ONGOING)
 
-  score String
+  score Scores
 
-  info Eduction_info
+  overall_score Int
 
-  year String
+  year Int
 
   institute String
 
@@ -26,7 +36,6 @@ type Eduction {
   updatedAt DateTime  @updatedAt @map(name: "updated_at")
 
 }
-
 
 
 type Address {
@@ -46,7 +55,7 @@ type Address {
 }
 
 
-type Person {
+type Info {
 
   firstname String
 
@@ -54,9 +63,9 @@ type Person {
 
   birthdate DateTime
 
-  gender string
+  gender String
 
-  email string
+  email String
 
   phone String
 
@@ -69,7 +78,7 @@ type Person {
 
 type Parent {
 
-  info Person
+  info Info
 
   cin_number Int
 
@@ -77,11 +86,11 @@ type Parent {
 
   health_status String
 
-  health_ensurance string
+  health_ensurance String
 
-  job string
+  job String
 
-  income string
+  income String
 
   home_status String
 
@@ -102,7 +111,7 @@ model User {
 
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  info Person
+  info Info
 
   createdAt DateTime  @default(now()) @map(name: "created_at")
   
@@ -118,7 +127,7 @@ model Orphan {
 
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  info Person
+  info Info
 
   health_status String
 
